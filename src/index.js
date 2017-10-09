@@ -15,9 +15,10 @@ class ThemeSwitch extends Component {
       this.css += 'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }';
     }
 
+    this.supported = this.invertSupported('filter', 'invert(100%)');
+
     this.state = {
-      active: false,
-      supported: true
+      active: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -40,7 +41,6 @@ class ThemeSwitch extends Component {
   componentDidMount() {
     if (this.store) {
       this.setState({
-        supported: this.invertSupported('filter', 'invert(100%)'),
         active: this.store.getItem('ThemeSwitch') || false
       });
     }
@@ -53,7 +53,7 @@ class ThemeSwitch extends Component {
   }
 
   render() {
-    if (!this.state.supported) {
+    if (!this.supported) {
       return null;
     }
 
