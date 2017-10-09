@@ -41,14 +41,14 @@ class ThemeSwitch extends Component {
     if (this.store) {
       this.setState({
         supported: this.invertSupported('filter', 'invert(100%)'),
-        active: this.store.getItem('ThemeSwitch') || false
+        active: this.store.getItem(this.props.storeKey) || false
       });
     }
   }
 
   componentDidUpdate() {
     if (this.store) {
-      this.store.setItem('ThemeSwitch', this.state.active);
+      this.store.setItem(this.props.storeKey, this.state.active);
     }
   }
 
@@ -70,6 +70,9 @@ class ThemeSwitch extends Component {
   }
 }
 
-ThemeSwitch.defaultProps = { preserveRasters: 'true' }
+ThemeSwitch.defaultProps = {
+  preserveRasters: 'true',
+  storeKey: 'ThemeSwitch'
+}
 
 export default ThemeSwitch;
