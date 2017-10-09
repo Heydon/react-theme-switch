@@ -9,7 +9,11 @@ class ThemeSwitch extends Component {
     this.css = `
       html { filter: invert(100%); background: #fefefe; }
       * { background-color: inherit }
-      ${this.props.preserveRasters === 'true' ? `img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }` : ``}`;
+    `;
+
+    if (this.props.preserveRasters) {
+      this.css += 'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }';
+    }
 
     this.state = {
       active: false,
