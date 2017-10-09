@@ -4,8 +4,6 @@ class ThemeSwitch extends Component {
   constructor(props) {
     super(props);
 
-    this.store = typeof localStorage === 'undefined' ? null : localStorage;
-
     this.css = `
       html { filter: invert(100%); background: #fefefe; }
       * { background-color: inherit }
@@ -38,17 +36,17 @@ class ThemeSwitch extends Component {
   }
 
   componentDidMount() {
-    if (this.store) {
+    if (this.props.store) {
       this.setState({
         supported: this.invertSupported('filter', 'invert(100%)'),
-        active: this.store.getItem('ThemeSwitch') || false
+        active: this.props.store.getItem('ThemeSwitch') || false
       });
     }
   }
 
   componentDidUpdate() {
-    if (this.store) {
-      this.store.setItem('ThemeSwitch', this.state.active);
+    if (this.props.store) {
+      this.props.store.setItem('ThemeSwitch', this.state.active);
     }
   }
 
@@ -70,6 +68,9 @@ class ThemeSwitch extends Component {
   }
 }
 
-ThemeSwitch.defaultProps = { preserveRasters: 'true' }
+ThemeSwitch.defaultProps = {
+  preserveRasters: 'true',
+  store: localStorage
+}
 
 export default ThemeSwitch;
