@@ -19,7 +19,7 @@ class ThemeSwitch extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  invertSupported (property, value) {
+  isDeclarationSupported (property, value) {
     var prop = property + ':',
         el = document.createElement('test'),
         mStyle = el.style;
@@ -36,7 +36,7 @@ class ThemeSwitch extends Component {
   componentDidMount() {
     if (this.store) {
       this.setState({
-        supported: this.invertSupported('filter', 'invert(100%)'),
+        supported: this.isDeclarationSupported('filter', 'invert(100%)'),
         active: this.store.getItem('ThemeSwitch') || false
       });
     }
