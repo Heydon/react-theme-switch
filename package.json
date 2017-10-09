@@ -26,5 +26,19 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.5.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heydon/react-theme-switch.git"
+  },
+  "keywords": [
+    "react",
+    "theme",
+    "switch",
+    "component"
+  ],
+  "bugs": {
+    "url": "https://github.com/Heydon/react-theme-switch/issues"
+  },
+  "homepage": "https://github.com/Heydon/react-theme-switch#readme"
 }
