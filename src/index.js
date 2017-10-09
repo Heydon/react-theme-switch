@@ -24,11 +24,9 @@ class ThemeSwitch extends Component {
   }
 
   invertSupported (property, value) {
-    var prop = property + ':',
-        el = document.createElement('test'),
-        mStyle = el.style;
-    el.style.cssText = prop + value;
-    return mStyle[property];
+    var el = document.createElement('test');
+    el.style.cssText = property + ':' + value;
+    return el.style[property];
   }
 
   toggle() {
