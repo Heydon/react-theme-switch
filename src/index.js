@@ -12,7 +12,7 @@ class ThemeSwitch extends Component {
       ${this.props.preserveRasters === 'true' ? `img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }` : ``}`;
 
     this.state = {
-      active: 'false',
+      active: false,
       supported: true
     };
 
@@ -27,13 +27,9 @@ class ThemeSwitch extends Component {
     return mStyle[property];
   }
 
-  isActive() {
-    return this.state.active === 'true';
-  }
-
   toggle() {
     this.setState({
-      active: this.isActive() ? 'false' : 'true'
+      active: !this.state.active
     });
   }
 
@@ -41,7 +37,7 @@ class ThemeSwitch extends Component {
     if (this.store) {
       this.setState({
         supported: this.invertSupported('filter', 'invert(100%)'),
-        active: this.store.getItem('ThemeSwitch') || 'false'
+        active: this.store.getItem('ThemeSwitch') || false
       });
     }
   }
@@ -58,11 +54,11 @@ class ThemeSwitch extends Component {
         {
           (this.state.supported)
           ? <div>
-              <button aria-pressed={this.isActive() ? 'true' : 'false'} onClick={this.toggle}>
-                inverted theme: <span aria-hidden="true">{this.isActive() ? 'on' : 'off'}</span>
+              <button aria-pressed={this.state.active} onClick={this.toggle}>
+                inverted theme: <span aria-hidden="true">{this.state.active ? 'on' : 'off'}</span>
               </button>
-              <style media={this.isActive() ? 'screen' : 'none'}>
-                {this.isActive() ? this.css.trim() : this.css}
+              <style media={this.state.active ? 'screen' : 'none'}>
+                {this.state.active ? this.css.trim() : this.css}
               </style>
             </div>
           : ''
