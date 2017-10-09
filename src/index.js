@@ -49,20 +49,18 @@ class ThemeSwitch extends Component {
   }
 
   render() {
+    if (!this.state.supported) {
+      return null;
+    }
+
     return (
       <div>
-        {
-          (this.state.supported)
-          ? <div>
-              <button aria-pressed={this.state.active} onClick={this.toggle}>
-                inverted theme: <span aria-hidden="true">{this.state.active ? 'on' : 'off'}</span>
-              </button>
-              <style media={this.state.active ? 'screen' : 'none'}>
-                {this.state.active ? this.css.trim() : this.css}
-              </style>
-            </div>
-          : ''
-        }
+        <button aria-pressed={this.state.active} onClick={this.toggle}>
+          inverted theme: <span aria-hidden="true">{this.state.active ? 'on' : 'off'}</span>
+        </button>
+        <style media={this.state.active ? 'screen' : 'none'}>
+          {this.state.active ? this.css.trim() : this.css}
+        </style>
       </div>
     );
   }
