@@ -15,9 +15,10 @@ class ThemeSwitch extends Component {
       this.css += 'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }';
     }
 
+    this.supported = this.invertSupported('filter', 'invert(100%)');
+
     this.state = {
-      active: false,
-      supported: true
+      active: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -53,7 +54,7 @@ class ThemeSwitch extends Component {
   }
 
   render() {
-    if (!this.state.supported) {
+    if (!this.supported) {
       return null;
     }
 
