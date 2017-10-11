@@ -39,7 +39,7 @@ class ThemeSwitch extends Component {
   componentDidMount() {
     if (this.props.store) {
       this.setState({
-        supported: this.invertSupported('filter', 'invert(100%)'),
+        supported: this.isDeclarationSupported('filter', 'invert(100%)'),
         active: this.props.store.getItem('ThemeSwitch') || false
       });
     }
@@ -70,7 +70,7 @@ class ThemeSwitch extends Component {
 }
 
 ThemeSwitch.defaultProps = {
-  preserveRasters: 'true',
+  preserveRasters: true,
   store: localStorage
 }
 
