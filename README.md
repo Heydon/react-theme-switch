@@ -4,19 +4,19 @@ A small, self-contained, and accessible component for inverting the theme of Rea
 
 ## Install
 
-```
+```sh
 npm i react-theme-switch
 ```
 
 ## Import
 
-```
+```js
 import ThemeSwitch from 'react-theme-switch';
 ```
 
 ## Include
 
-```
+```jsx
 <ThemeSwitch />
 ```
 
@@ -25,7 +25,7 @@ import ThemeSwitch from 'react-theme-switch';
 Just one optional prop is provided: `preserveRasters`. By default, raster images (images without the SVG extension) are double inverted so they do not become negatives. If you should wish to turn this option off, include the prop with a "false" value like so:
 
 ```
-<ThemeSwitch preserveRasters="false" />
+<ThemeSwitch preserveRasters={false} />
 ```
 
 ## Accessibility
