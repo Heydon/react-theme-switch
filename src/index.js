@@ -9,7 +9,11 @@ class ThemeSwitch extends Component {
     this.css = `
       html { filter: invert(100%); background: #fefefe; }
       * { background-color: inherit }
-      ${this.props.preserveRasters === 'true' ? `img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }` : ``}`;
+    `;
+
+    if (this.props.preserveRasters) {
+      this.css += 'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }';
+    }
 
     this.state = {
       active: false,
@@ -44,30 +48,28 @@ class ThemeSwitch extends Component {
 
   componentDidUpdate() {
     if (this.store) {
-      this.store.setItem('ThemeSwitch', this.state.active);
+      this.store.setItem(this.props.storeKey, this.state.active);
     }
   }
 
   render() {
+    if (!this.state.supported) {
+      return null;
+    }
+
     return (
       <div>
-        {
-          (this.state.supported)
-          ? <div>
-              <button aria-pressed={this.state.active} onClick={this.toggle}>
-                inverted theme: <span aria-hidden="true">{this.state.active ? 'on' : 'off'}</span>
-              </button>
-              <style media={this.state.active ? 'screen' : 'none'}>
-                {this.state.active ? this.css.trim() : this.css}
-              </style>
-            </div>
-          : ''
-        }
+        <button aria-pressed={this.state.active} onClick={this.toggle}>
+          inverted theme: <span aria-hidden="true">{this.state.active ? 'on' : 'off'}</span>
+        </button>
+        <style media={this.state.active ? 'screen' : 'none'}>
+          {this.state.active ? this.css.trim() : this.css}
+        </style>
       </div>
     );
   }
 }
 
-ThemeSwitch.defaultProps = { preserveRasters: 'true' }
+ThemeSwitch.defaultProps = { preserveRasters: true }
 
 export default ThemeSwitch;
