@@ -4,19 +4,19 @@ A small, self-contained, and accessible component for inverting the theme of Rea
 
 ## Install
 
-```
+```sh
 npm i react-theme-switch
 ```
 
 ## Import
 
-```
+```js
 import ThemeSwitch from 'react-theme-switch';
 ```
 
 ## Include
 
-```
+```jsx
 <ThemeSwitch />
 ```
 
