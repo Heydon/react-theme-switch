@@ -40,14 +40,14 @@ class ThemeSwitch extends Component {
     if (this.props.store) {
       this.setState({
         supported: this.isDeclarationSupported('filter', 'invert(100%)'),
-        active: this.props.store.getItem('ThemeSwitch') || false
+        active: this.props.store.getItem(this.props.storeKey) || false
       });
     }
   }
 
   componentDidUpdate() {
     if (this.props.store) {
-      this.props.store.setItem('ThemeSwitch', this.state.active);
+      this.props.store.setItem(this.props.storeKey, this.state.active);
     }
   }
 
@@ -71,7 +71,8 @@ class ThemeSwitch extends Component {
 
 ThemeSwitch.defaultProps = {
   preserveRasters: true,
-  store: localStorage
+  store: localStorage,
+  storeKey: 'ThemeSwitch'
 }
 
 export default ThemeSwitch;
