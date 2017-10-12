@@ -16,13 +16,21 @@ class ThemeSwitch extends Component {
     this.supported = this.isDeclarationSupported('filter', 'invert(100%)');
 
     this.state = {
-      active: false
+      active: this.getStoredValue()
     };
 
     this.toggle = this.toggle.bind(this);
   }
 
-  isDeclarationSupported (property, value) {
+  getStoredValue() {
+    try {
+      return this.props.store.getItem(this.props.storeKey)
+    } catch (error) {
+      return false
+    }
+  }
+
+  isDeclarationSupported(property, value) {
     var prop = property + ':',
         el = document.createElement('test'),
         mStyle = el.style;
@@ -33,19 +41,10 @@ class ThemeSwitch extends Component {
   toggle() {
     this.setState({
       active: !this.state.active
-    });
+    }, this.updateStore);
   }
 
-  componentDidMount() {
-    if (this.props.store) {
-      this.setState({
-        supported: this.isDeclarationSupported('filter', 'invert(100%)'),
-        active: this.props.store.getItem(this.props.storeKey) || false
-      });
-    }
-  }
-
-  componentDidUpdate() {
+  updateStore() {
     if (this.props.store) {
       this.props.store.setItem(this.props.storeKey, this.state.active);
     }
