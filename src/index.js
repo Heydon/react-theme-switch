@@ -39,7 +39,6 @@ class ThemeSwitch extends Component {
   componentDidMount() {
     if (this.props.store) {
       this.setState({
-        supported: this.isDeclarationSupported('filter', 'invert(100%)'),
         active: this.props.store.getItem('ThemeSwitch') || false
       });
     }
