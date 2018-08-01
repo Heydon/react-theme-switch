@@ -22,10 +22,10 @@ import ThemeSwitch from 'react-theme-switch';
 
 ## Props
 
-Just one optional prop is provided: `preserveRasters`. By default, raster images (images without the SVG extension) are double inverted so they do not become negatives. If you should wish to turn this option off, include the prop with a "false" value like so:
+Just one optional prop is provided: `preserveRasters`. By default, raster images (images without the SVG extension, as well as videos) get inverted. To preserve them (through reinversion) use the `preserveRasters` Boolean.
 
 ```
-<ThemeSwitch preserveRasters={false} />
+<ThemeSwitch preserveRasters />
 ```
 
 ## Accessibility
