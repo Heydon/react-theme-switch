@@ -18,7 +18,7 @@ class ThemeSwitch extends Component {
       active: 'false'
     }
 
-    this.toggle = this.props.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   toggle() {
