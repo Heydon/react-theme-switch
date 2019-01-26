@@ -26,8 +26,6 @@ var ThemeSwitch = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (ThemeSwitch.__proto__ || Object.getPrototypeOf(ThemeSwitch)).call(this, props));
 
-    _this.store = typeof localStorage === 'undefined' ? null : localStorage;
-
     _this.css = '\n      html { filter: invert(100%); background: #fefefe; }\n      * { background-color: inherit }\n    ';
 
     if (_this.props.preserveRasters) {
@@ -35,71 +33,51 @@ var ThemeSwitch = function (_Component) {
     }
 
     _this.state = {
-      active: false,
-      supported: true
+      active: 'false'
     };
 
-    _this.toggle = _this.toggle.bind(_this);
+    _this.toggle = _this.props.bind(_this);
     return _this;
   }
 
   _createClass(ThemeSwitch, [{
-    key: 'invertSupported',
-    value: function invertSupported(property, value) {
-      var prop = property + ':',
-          el = document.createElement('test'),
-          mStyle = el.style;
-      el.style.cssText = prop + value;
-      return mStyle[property];
-    }
-  }, {
     key: 'toggle',
     value: function toggle() {
+      var _this2 = this;
+
       this.setState({
         active: !this.state.active
+      }, function () {
+        localStorage.setItem(_this2.props.storeKey, _this2.state.active);
       });
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.store) {
-        this.setState({
-          supported: this.invertSupported('filter', 'invert(100%)'),
-          active: this.store.getItem('ThemeSwitch') || false
-        });
-      }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      if (this.store) {
-        this.store.setItem('ThemeSwitch', this.state.active);
-      }
+      this.setState({
+        active: localStorage.getItem(this.props.storeKey) === 'true'
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      if (!this.state.supported) {
-        return null;
-      }
+      var active = this.state.active;
 
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'button',
-          { 'aria-pressed': this.state.active, onClick: this.toggle },
-          'inverted theme: ',
-          _react2.default.createElement(
-            'span',
-            { 'aria-hidden': 'true' },
-            this.state.active ? 'on' : 'off'
-          )
+          {
+            'aria-pressed': active,
+            onClick: this.toggle,
+            style: { outline: 'none' } },
+          this.props.children ? this.props.children : active ? 'Light' : 'Dark'
         ),
         _react2.default.createElement(
           'style',
-          { media: this.state.active ? 'screen' : 'none' },
-          this.state.active ? this.css.trim() : this.css
+          { media: active ? 'screen' : 'none' },
+          active ? this.css.trim() : this.css
         )
       );
     }
@@ -108,6 +86,9 @@ var ThemeSwitch = function (_Component) {
   return ThemeSwitch;
 }(_react.Component);
 
-ThemeSwitch.defaultProps = { preserveRasters: 'true' };
+ThemeSwitch.defaultProps = {
+  preserveRasters: true,
+  storeKey: 'ThemeSwitch'
+};
 
 exports.default = ThemeSwitch;
