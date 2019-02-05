@@ -43,14 +43,11 @@ class ThemeSwitch extends Component {
     return (
       <div>
         <button
-          aria-pressed={active}
+          aria-pressed={this.state.active}
           onClick={this.toggle}
-          style={{ outline: 'none' }}>
-          {this.props.children
-            ? this.props.children
-            : active
-            ? 'Light'
-            : 'Dark'}
+        >
+          inverted theme:{" "}
+          <span aria-hidden="true">{this.state.active ? "on" : "off"}</span>
         </button>
         <style media={active ? 'screen' : 'none'}>
           {active ? this.css.trim() : this.css}
