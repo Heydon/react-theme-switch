@@ -21,6 +21,14 @@ class ThemeSwitch extends Component {
     this.toggle = this.toggle.bind(this)
   }
 
+  isDeclarationSupported(property, value) {
+    var prop = property + ':',
+      el = document.createElement('test'),
+      mStyle = el.style;
+    el.style.cssText = prop + value;
+    return mStyle[property];
+  }
+
   toggle() {
     this.setState(
       {
@@ -33,21 +41,23 @@ class ThemeSwitch extends Component {
   }
 
   componentDidMount() {
+    this.supported = this.isDeclarationSupported('filter', 'invert(100%)');
     this.setState({
       active: localStorage.getItem(this.props.storeKey) === 'true'
     })
   }
 
   render() {
+    if (!this.supported) {
+      return null;
+    }
+
     const { active } = this.state
     return (
       <div>
-        <button
-          aria-pressed={this.state.active}
-          onClick={this.toggle}
-        >
-          inverted theme:{" "}
-          <span aria-hidden="true">{this.state.active ? "on" : "off"}</span>
+        <button aria-pressed={this.state.active} onClick={this.toggle}>
+          Inverted theme:{' '}
+          <span aria-hidden='true'>{this.state.active ? 'On' : 'Off'}</span>
         </button>
         <style media={active ? 'screen' : 'none'}>
           {active ? this.css.trim() : this.css}

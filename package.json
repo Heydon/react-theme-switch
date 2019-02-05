@@ -1,6 +1,6 @@
 {
   "name": "react-theme-switch",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "description": "Add an 'invert theme' switch to React-based interfaces. Ideal for efficiently offering light interfaces a low intensity dark alternative.",
   "main": "build/index.js",
   "peerDependencies": {
