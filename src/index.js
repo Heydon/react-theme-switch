@@ -1,5 +1,5 @@
-import React, { Fragment, useRef, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { Fragment, useRef, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 // Set the strings as global for easier reference in the component.
 const cssString = `
@@ -12,24 +12,24 @@ const rasterCss =
 // This function does not require any knowledge of the component itself and can
 // better be a global or imported function.
 const isDeclarationSupported = (property, value) => {
-  const prop = property + ":",
-    el = document.createElement("test"),
+  const prop = property + ':',
+    el = document.createElement('test'),
     mStyle = el.style;
   el.style.cssText = prop + value;
   return mStyle[property];
 };
 
 // Default props are given in ES6 syntax.
-const ThemeSwitch = ({ preserveRasters = true, storeKey = "ThemeSwitch" }) => {
+const ThemeSwitch = ({ preserveRasters = true, storeKey = 'ThemeSwitch' }) => {
   // The supported flag is only set when the component is instantiated so can be a default value
   // on a ref.
-  const supported = useRef(!!isDeclarationSupported("filter", "invert(100%)"));
+  const supported = useRef(!!isDeclarationSupported('filter', 'invert(100%)'));
 
   // The css value needs to be on state as the useEffect hook takes into account that the
   // preserveRasters prop may change.
   const [css, setCss] = useState(cssString);
   const [active, setActive] = useState(
-    localStorage.getItem(storeKey) === "true"
+    localStorage.getItem(storeKey) === 'true'
   );
 
   // If the preserveRasters prop changes, the css state value is reset with the original
@@ -58,10 +58,10 @@ const ThemeSwitch = ({ preserveRasters = true, storeKey = "ThemeSwitch" }) => {
     supported.current && (
       <Fragment>
         <button aria-pressed={active} onClick={toggle}>
-          Inverted theme:{" "}
-          <span aria-hidden="true">{active ? "On" : "Off"}</span>
+          Inverted theme:{' '}
+          <span aria-hidden="true">{active ? 'On' : 'Off'}</span>
         </button>
-        <style media={active ? "screen" : "none"}>
+        <style media={active ? 'screen' : 'none'}>
           {active ? css.trim() : css}
         </style>
       </Fragment>
@@ -69,4 +69,4 @@ const ThemeSwitch = ({ preserveRasters = true, storeKey = "ThemeSwitch" }) => {
   );
 };
 
-ReactDOM.render(<ThemeSwitch />, document.getElementById("root"));
+ReactDOM.render(<ThemeSwitch />, document.getElementById('root'));

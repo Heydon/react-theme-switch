@@ -4,7 +4,7 @@
   "description": "Add an 'invert theme' switch to React-based interfaces. Ideal for efficiently offering light interfaces a low intensity dark alternative.",
   "main": "build/index.js",
   "dependencies": {
-    "prettier": "^1.17.0",
+    "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
