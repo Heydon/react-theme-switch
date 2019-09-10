@@ -1,75 +1,72 @@
-import React, { Component } from 'react'
+import React, { Fragment, useRef, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
-class ThemeSwitch extends Component {
-  constructor(props) {
-    super(props)
-
-    this.css = `
+// Set the strings as global for easier reference in the component.
+const cssString = `
       html { filter: invert(100%); background: #fefefe; }
       * { background-color: inherit }
-    `
+    `;
+const rasterCss =
+  'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }';
 
-    if (this.props.preserveRasters) {
-      this.css +=
-        'img:not([src*=".svg"]), video, [style*="url("] { filter: invert(100%) }'
+// This function does not require any knowledge of the component itself and can
+// better be a global or imported function.
+const isDeclarationSupported = (property, value) => {
+  const prop = property + ":",
+    el = document.createElement("test"),
+    mStyle = el.style;
+  el.style.cssText = prop + value;
+  return mStyle[property];
+};
+
+// Default props are given in ES6 syntax.
+const ThemeSwitch = ({ preserveRasters = true, storeKey = "ThemeSwitch" }) => {
+  // The supported flag is only set when the component is instantiated so can be a default value
+  // on a ref.
+  const supported = useRef(!!isDeclarationSupported("filter", "invert(100%)"));
+
+  // The css value needs to be on state as the useEffect hook takes into account that the
+  // preserveRasters prop may change.
+  const [css, setCss] = useState(cssString);
+  const [active, setActive] = useState(
+    localStorage.getItem(storeKey) === "true"
+  );
+
+  // If the preserveRasters prop changes, the css state value is reset with the original
+  // clean css, after which the check for preserverRasters will be applied again. React
+  // will coalesce the state setter calls if required.
+  useEffect(() => {
+    if (preserveRasters) {
+      setCss(`${cssString} ${rasterCss}`);
     }
+    return () => {
+      setCss(cssString);
+    };
+  }, [preserveRasters]);
 
-    this.state = {
-      active: 'false'
-    }
+  // This effect hook will update the localstorage value. There should probably
+  // be cleanup code if the storeKey prop changes but it is omitted for simplicity.
+  useEffect(() => {
+    localStorage.setItem(storeKey, active);
+  }, [active, storeKey]);
 
-    this.toggle = this.toggle.bind(this)
-  }
+  const toggle = () => {
+    setActive(a => !a);
+  };
 
-  isDeclarationSupported(property, value) {
-    var prop = property + ':',
-      el = document.createElement('test'),
-      mStyle = el.style;
-    el.style.cssText = prop + value;
-    return mStyle[property];
-  }
-
-  toggle() {
-    this.setState(
-      {
-        active: !this.state.active
-      },
-      () => {
-        localStorage.setItem(this.props.storeKey, this.state.active)
-      }
-    )
-  }
-
-  componentDidMount() {
-    this.supported = this.isDeclarationSupported('filter', 'invert(100%)');
-    this.setState({
-      active: localStorage.getItem(this.props.storeKey) === 'true'
-    })
-  }
-
-  render() {
-    if (!this.supported) {
-      return null;
-    }
-
-    const { active } = this.state
-    return (
-      <div>
-        <button aria-pressed={this.state.active} onClick={this.toggle}>
-          Inverted theme:{' '}
-          <span aria-hidden='true'>{this.state.active ? 'On' : 'Off'}</span>
+  return (
+    supported.current && (
+      <Fragment>
+        <button aria-pressed={active} onClick={toggle}>
+          Inverted theme:{" "}
+          <span aria-hidden="true">{active ? "On" : "Off"}</span>
         </button>
-        <style media={active ? 'screen' : 'none'}>
-          {active ? this.css.trim() : this.css}
+        <style media={active ? "screen" : "none"}>
+          {active ? css.trim() : css}
         </style>
-      </div>
+      </Fragment>
     )
-  }
-}
+  );
+};
 
-ThemeSwitch.defaultProps = {
-  preserveRasters: true,
-  storeKey: 'ThemeSwitch'
-}
-
-export default ThemeSwitch
+ReactDOM.render(<ThemeSwitch />, document.getElementById("root"));

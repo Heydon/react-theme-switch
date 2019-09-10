@@ -3,27 +3,38 @@
   "version": "0.1.7",
   "description": "Add an 'invert theme' switch to React-based interfaces. Ideal for efficiently offering light interfaces a low intensity dark alternative.",
   "main": "build/index.js",
-  "peerDependencies": {
-    "react": "^15.5.4"
-  },
   "dependencies": {
-    "react": "^15.5.4"
+    "prettier": "^1.17.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel src -d build -w",
-    "build": "babel src -d build"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "format": "prettier --write src/**/*.{js,scss}"
   },
   "author": {
     "name": "Heydon Pickering",
     "email": "heydon@heydonworks.com"
   },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.5.1",
-    "webpack": "^2.6.1"
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "repository": {
     "type": "git",
